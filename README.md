@@ -5,7 +5,7 @@ Scan one or more barcodes from a JPEG image.
 The API for this library is very simple:
 
 ```elixir
-iex> File.read!("file_dir.jpg", "colorspace_name") |> Zbar.scan()
+iex> File.read!("file_dir.jpg") |> Zbar.scan("colorspace_name")
 %Zbar.Symbol{
   data: "REF1",
   points: [{40, 40}, {40, 250}, {250, 250}, {250, 40}],
@@ -25,7 +25,7 @@ installed by adding `:zbar` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:zbar, "~> 0.2"}]
+  [{:zbar, "~> 0.2", github: "Fastcomm/zbar"}]
 end
 ```
 
