@@ -5,7 +5,7 @@ Scan one or more barcodes from a JPEG image.
 The API for this library is very simple:
 
 ```elixir
-iex> File.read!("QR_REF1.jpg") |> Zbar.scan()
+iex> File.read!("file_dir.jpg", "colorspace_name") |> Zbar.scan()
 %Zbar.Symbol{
   data: "REF1",
   points: [{40, 40}, {40, 250}, {250, 250}, {250, 40}],
@@ -13,6 +13,7 @@ iex> File.read!("QR_REF1.jpg") |> Zbar.scan()
   type: "QR-Code"
 }
 ```
+Default colorspace is "color". Change to "gray" to enable scanning images in grayscale.
 
 More detailed API documentation can be found at
 [https://hexdocs.pm/zbar](https://hexdocs.pm/zbar).

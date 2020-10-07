@@ -19,27 +19,27 @@ defmodule Zbar do
   *  `{:error, :timeout}` if the zbar process hung for some reason
   *  `{:error, binary()}` if there was an error in the scanning process
   """
-  @spec scan(binary(), pos_integer()) ::
+  @spec scan(binary(), String.t(), pos_integer()) ::
         {:ok, list(Zbar.Symbol.t())}
         | {:error, :timeout}
         | {:error, binary()}
-  def scan(jpeg_data, timeout \\ 5000) do
+  def scan(jpeg_data, colorspace \\ "color", timeout \\ 5000) do
     # We run this in a `Task` so that `collect_output` can use `receive`
     # without interfering with the caller's mailbox.
-    Task.async(fn -> do_scan(jpeg_data, timeout) end)
+    Task.async(fn -> do_scan(jpeg_data, colorspace, timeout) end)
     |> Task.await(:infinity)
   end
 
-  @spec do_scan(binary(), pos_integer()) ::
+  @spec do_scan(binary(), String.t(), pos_integer()) ::
         {:ok, [Zbar.Symbol.t()]}
         | {:error, :timeout}
         | {:error, binary()}
-  defp do_scan(jpeg_data, timeout) do
+  defp do_scan(jpeg_data, colorspace, timeout) do
     File.open!(temp_file(), [:write, :binary], & IO.binwrite(&1, jpeg_data))
 
     {:spawn_executable, to_charlist(zbar_binary())}
     |> Port.open([
-      {:args, [temp_file()]},
+      {:args, [temp_file(), colorspace]},
       :binary,
       :stream,
       :exit_status,

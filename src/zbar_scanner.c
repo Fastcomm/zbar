@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <err.h>
+#include <string.h>
 
 #include <jpeglib.h>
 #include <zbar.h>
@@ -17,7 +18,7 @@
 
 int main (int argc, char **argv)
 {
-  if (argc != 2)
+  if (argc < 2)
     errx(EXIT_FAILURE, "Usage: %s filename.jpg", argv[0]);
 
   struct jpeg_decompress_struct cinfo;
@@ -39,6 +40,9 @@ int main (int argc, char **argv)
 
   if (jpeg_read_header(&cinfo, TRUE) != 1)
     exit(EXIT_FAILURE);
+
+  if (strcmp(argv[2], "gray")==0)
+    cinfo.out_color_space = JCS_GRAYSCALE;
 
   jpeg_start_decompress(&cinfo);
 
