@@ -30,8 +30,8 @@ end
 ```
 
 You will also need to have `zbar` and `libjpeg` installed in order to compile
-the required native code. On OSX with Homebrew, this is as simple as:
+the required native code:
 
 ```bash
-$ brew install zbar libjpeg
+$ sudo apt install zbar-tools libjpeg-tools
 ```
